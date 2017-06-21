@@ -20,7 +20,7 @@ spec:
         - name: NAMESERVICE
           value: "http://{{ .Values.nameservice.host }}:{{ .Values.nameservice.port }}"
         name: {{ .Chart.Name }}
-        image: "{{ .Values.image.organization }}-{{ .Chart.Name }}-{{ .Values.serviceType }}-{{ .Values.branch }}:{{ .Values.buildNumber }}"
+        image: "{{ .Values.image.organization }}/{{ .Chart.Name }}-{{ .Values.serviceType }}-{{ .Values.branch }}:{{ .Values.buildNumber }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.service.internalPort }}

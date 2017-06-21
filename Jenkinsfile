@@ -7,6 +7,7 @@ node {
 
   stage('Printenv') {
      sh("printenv")
+     sh("echo env.JOB_NAME")
   }
 
   stage ('Login to Quay.io') {

@@ -9,6 +9,8 @@ node {
   def release = env.BRANCH_NAME.replaceAll('_','')
   checkout scm
 
+  echo(message: ${directory_name})
+
   switch (directory_name) {
      case "cicd-multi-service-demo-all-in-one":
         def serviceType = 'all-in-one'

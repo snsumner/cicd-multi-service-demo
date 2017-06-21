@@ -15,7 +15,9 @@ node {
 
   stage ('Build image') {
 
-     switch (env.JOB_BASE_NAME) {
+     def job_name = env.JOB_NAME.split('\')
+
+     switch (job_name[0]) {
         case "cicd-multi-service-demo-all-in-one":
             def serviceType = 'all-in-one'
             def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
@@ -41,7 +43,7 @@ node {
         break
 
         default:
-            println env.JOB_NAME
+            println job_name[0]
         break
      }
   }

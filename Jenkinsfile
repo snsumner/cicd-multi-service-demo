@@ -7,6 +7,7 @@ node {
 
   if (env.JOB_NAME.contains('cicd-multi-service-demo-all-in-one')) {
      def serviceType = 'all-in-one'
+     println "${serviceType}"
   }
 
   if (env.JOB_NAME.contains('cicd-multi-service-demo-greeter-service')) {

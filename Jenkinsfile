@@ -15,36 +15,28 @@ node {
 
   stage ('Build image') {
 
-     def job_name = env.JOB_NAME.split('\')
+     if (env.JOB_NAME.contains('cicd-multi-service-demo-all-in-one')) {
+        def serviceType = 'all-in-one'
+        def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
+        sh("docker build -t ${imageTag} -f Dockerfile.all-in-one .")
+     }
 
-     switch (job_name[0]) {
-        case "cicd-multi-service-demo-all-in-one":
-            def serviceType = 'all-in-one'
-            def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
-            sh("docker build -t ${imageTag} -f Dockerfile.all-in-one .")
-        break
+     if (env.JOB_NAME.contains('cicd-multi-service-demo-greeter-service')) {
+        def serviceType = 'greeter-service'
+        def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
+        sh("docker build -t ${imageTag} -f Dockerfile.python-greeter-service .")
+     }
 
-        case "cicd-multi-service-demo-greeter-service":
-            def serviceType = 'greeter-service'
-            def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
-            sh("docker build -t ${imageTag} -f Dockerfile.python-greeter-service .")
-        break
+     if (env.JOB_NAME.contains('cicd-multi-service-demo-name-service')) {
+        def serviceType = 'name-service'
+        def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
+        sh("docker build -t ${imageTag} -f Dockerfile.python-name-service .")
+     }
 
-        case "cicd-multi-service-demo-name-service":
-            def serviceType = 'name-service'
-            def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
-            sh("docker build -t ${imageTag} -f Dockerfile.python-name-service .")
-        break
-
-        case "cicd-multi-service-demo-hello-world":
-            def serviceType = 'hello-world'
-            def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
-            sh("docker build -t ${imageTag} -f Dockerfile.python-hello-world .")
-        break
-
-        default:
-            println job_name[0]
-        break
+     if (env.JOB_NAME.contains('cicd-multi-service-demo-hello-world')) {
+        def serviceType = 'hello-world'
+        def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
+        sh("docker build -t ${imageTag} -f Dockerfile.python-hello-world .")
      }
   }
 

@@ -7,7 +7,6 @@ node {
 
   stage('Printenv') {
      sh("printenv")
-     sh("echo env.JOB_NAME")
   }
 
   stage ('Login to Quay.io') {
@@ -16,7 +15,7 @@ node {
 
   stage ('Build image') {
 
-     switch (env.JOB_NAME) {
+     switch (${JOB_BASE_NAME}) {
         case "cicd-multi-service-demo-all-in-one":
             def serviceType = 'all-in-one'
             def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"

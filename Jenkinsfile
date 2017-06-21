@@ -1,33 +1,43 @@
 node {
+  echo(message: env.JOB_NAME)
+  def full_name = env.JOB_NAME.split('/')
+  def directory_name = full_name[0]
+  def job_name = full_name[1]
   def project = 'snsumner75'
   def appName = 'cicd-multi-service-demo'
   def feSvcName = "${appName}"
   def release = env.BRANCH_NAME.replaceAll('_','')
   checkout scm
 
-  if (env.JOB_NAME.contains('cicd-multi-service-demo-all-in-one')) {
-     def serviceType = 'all-in-one'
-     println "${serviceType}"
-  }
+  switch (directory_name) {
+     case "cicd-multi-service-demo-all-in-one":
+        def serviceType = 'all-in-one'
+     break
 
-  if (env.JOB_NAME.contains('cicd-multi-service-demo-greeter-service')) {
-     def serviceType = 'python-greeter-service'
-  }
+     case "cicd-multi-service-demo-greeter-service":
+        def serviceType = 'python-greeter-service'
+     break
 
-  if (env.JOB_NAME.contains('cicd-multi-service-demo-name-service')) {
-     def serviceType = 'python-name-service'
-  }
+     case "cicd-multi-service-demo-name-service":
+        def serviceType = 'python-name-service'
+     break
 
-  if (env.JOB_NAME.contains('cicd-multi-service-demo-hello-world')) {
-     def serviceType = 'python-hello-world'
+     case "cicd-multi-service-demo-hello-world":
+       def serviceType = 'python-hello-world'
+     break
+
+     default:
+     break
   }
 
   def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
 
+  echo(message: ${serviceType})
+  echo(message: ${imageTag})
+
   stage('Printenv') {
      sh("printenv")
   }
-
 
   stage ('Login to Quay.io') {
      sh("docker login -u=\"${env.quay_username}\" -p=\"${env.quay_password}\" quay.io")

@@ -7,25 +7,26 @@ node {
   def appName = 'cicd-multi-service-demo'
   def feSvcName = "${appName}"
   def release = env.BRANCH_NAME.replaceAll('_','')
+  def serviceType
   checkout scm
 
   echo(message: directory_name)
 
   switch (directory_name) {
      case "cicd-multi-service-demo-all-in-one":
-        def serviceType = 'all-in-one'
+        serviceType = 'all-in-one'
      break
 
      case "cicd-multi-service-demo-greeter-service":
-        def serviceType = 'python-greeter-service'
+        serviceType = 'python-greeter-service'
      break
 
      case "cicd-multi-service-demo-name-service":
-        def serviceType = 'python-name-service'
+        serviceType = 'python-name-service'
      break
 
      case "cicd-multi-service-demo-hello-world":
-       def serviceType = 'python-hello-world'
+        serviceType = 'python-hello-world'
      break
 
      default:
@@ -34,7 +35,7 @@ node {
 
   echo(message: serviceType)
 
-  def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
+  def imageTag = "quay.io/${project}/${appName}-${serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
 
   echo(message: imageTag)
 

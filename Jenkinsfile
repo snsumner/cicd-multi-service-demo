@@ -43,6 +43,7 @@ node {
         default:
         break
      }
+  }
 
   stage ('Push image to Quay.io registry') {
      sh("docker push ${imageTag}")

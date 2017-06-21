@@ -10,15 +10,15 @@ node {
   }
 
   if (env.JOB_NAME.contains('cicd-multi-service-demo-greeter-service')) {
-     def serviceType = 'greeter-service'
+     def serviceType = 'python-greeter-service'
   }
 
   if (env.JOB_NAME.contains('cicd-multi-service-demo-name-service')) {
-     def serviceType = 'name-service'
+     def serviceType = 'python-name-service'
   }
 
   if (env.JOB_NAME.contains('cicd-multi-service-demo-hello-world')) {
-     def serviceType = 'hello-world'
+     def serviceType = 'python-hello-world'
   }
 
   def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
@@ -33,27 +33,7 @@ node {
   }
 
   stage ('Build image') {
-
-    switch ("${serviceType}") {
-       case "all-in-one":
-         sh("docker build -t ${imageTag} -f Dockerfile.all-in-one .")
-       break
-
-       case "greeter-service":
-         sh("docker build -t ${imageTag} -f Dockerfile.python-greeter-service .")
-       break
-
-       case "name-service":
-         sh("docker build -t ${imageTag} -f Dockerfile.python-name-service .")
-       break
-
-       case "hello-world":
-         sh("docker build -t ${imageTag} -f Dockerfile.python-hello-world .")
-       break
-
-       default:
-       break
-    }
+     sh("docker build -t ${imageTag} -f Dockerfile.${serviceType} .")
   }
 
   stage ('Push image to Quay.io registry') {

@@ -41,7 +41,7 @@ node {
         break
 
         default:
-            println env.JOB_BASE_NAME
+            println env.JOB_NAME
         break
      }
   }

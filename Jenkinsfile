@@ -9,7 +9,7 @@ node {
   def release = env.BRANCH_NAME.replaceAll('_','')
   checkout scm
 
-  echo(message: ${directory_name})
+  echo(message: directory_name)
 
   switch (directory_name) {
      case "cicd-multi-service-demo-all-in-one":
@@ -32,10 +32,11 @@ node {
      break
   }
 
+  echo(message: serviceType)
+
   def imageTag = "quay.io/${project}/${appName}-${env.serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
 
-  echo(message: ${serviceType})
-  echo(message: ${imageTag})
+  echo(message: imageTag)
 
   stage('Printenv') {
      sh("printenv")

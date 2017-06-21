@@ -1,0 +1,24 @@
+# Default values for cicd-multi-service-demo.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+buildNumber: 1
+branch: dev_1
+environment: DEV-INT
+replicaCount: 1
+dnsPolicy: ClusterFirst
+restartPolicy: Always
+terminationGracePeriodSeconds: 30
+image:
+  organization: quay.io/snsumner75
+  pullPolicy: IfNotPresent
+service:
+  type: LoadBalancer
+  externalPort: 80
+  internalPort: 5000
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

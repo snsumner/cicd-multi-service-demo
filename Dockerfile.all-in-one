@@ -2,23 +2,23 @@ FROM ubuntu:latest
 RUN apt-get update -y
 RUN apt-get install -y python-pip python-dev build-essential
 
+COPY start.sh /app/
+RUN chmod +x /app/start.sh
+
 COPY python-name-service/app.py /app/python-name-service/ 
 COPY python-name-service/requirements.txt /app/python-name-service/
 WORKDIR /app/python-name-service
 RUN pip install -r requirements.txt
-ENTRYPOINT ["python"]
-CMD ["app.py"]
 
 COPY python-greeter-service/app.py /app/python-greeter-service/ 
 COPY python-greeter-service/requirements.txt /app/python-greeter-service/
 WORKDIR /app/python-greeter-service
 RUN pip install -r requirements.txt
-ENTRYPOINT ["python"]
-CMD ["app.py"]
 
 COPY python-hello-world/app.py /app/python-hello-world/ 
 COPY python-hello-world/requirements.txt /app/python-hello-world/
 WORKDIR /app/python-hello-world
 RUN pip install -r requirements.txt
-ENTRYPOINT ["python"]
-CMD ["app.py"]
+
+WORKDIR /app
+CMD ["/app/start.sh"]

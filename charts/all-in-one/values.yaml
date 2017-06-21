@@ -8,6 +8,13 @@ replicaCount: 1
 dnsPolicy: ClusterFirst
 restartPolicy: Always
 terminationGracePeriodSeconds: 30
+serviceType: all-in-one
+greeterservice:
+  host: localhost
+  port: 5001
+nameservice:
+  host: localhost
+  port: 5002
 image:
   organization: quay.io/snsumner75
   pullPolicy: IfNotPresent
@@ -18,7 +25,7 @@ service:
 resources:
   limits:
     cpu: 100m
-    memory: 128Mi
+    memory: 512Mi
   requests:
     cpu: 100m
-    memory: 128Mi
+    memory: 512Mi

@@ -19,7 +19,8 @@ spec:
           value: "http://{{ .Values.greeterservice.host }}:{{ .Values.greeterservice.port }}"
         - name: NAMESERVICE
           value: "http://{{ .Values.nameservice.host }}:{{ .Values.nameservice.port }}"
-        image: "{{ .Values.image.organization }}/{{ .Chart.Name }}-{{ .Values.serviceType }}-{{ .Values.branch }}:{{ .Values.buildNumber }}"
+        name: {{ .Chart.Name }}
+        image: "{{ .Values.image.organization }}-{{ .Chart.Name }}-{{ .Values.serviceType }}-{{ .Values.branch }}:{{ .Values.buildNumber }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.service.internalPort }}

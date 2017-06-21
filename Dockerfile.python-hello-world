@@ -1,7 +1,4 @@
-FROM ubuntu:latest
-RUN apt-get update -y
-RUN apt-get install -y python-pip python-dev build-essential
-
+FROM python:alpine
 COPY python-hello-world/app.py /app/python-hello-world/ 
 COPY python-hello-world/requirements.txt /app/python-hello-world/
 WORKDIR /app/python-hello-world

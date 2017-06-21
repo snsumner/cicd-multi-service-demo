@@ -1,7 +1,4 @@
-FROM ubuntu:latest
-RUN apt-get update -y
-RUN apt-get install -y python-pip python-dev build-essential
-
+FROM python:alpine
 COPY python-name-service/app.py /app/python-name-service/ 
 COPY python-name-service/requirements.txt /app/python-name-service/
 WORKDIR /app/python-name-service

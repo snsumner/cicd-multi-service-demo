@@ -1,0 +1,10 @@
+FROM ubuntu:latest
+RUN apt-get update -y
+RUN apt-get install -y python-pip python-dev build-essential
+
+COPY python-name-service/app.py /app/python-name-service/ 
+COPY python-name-service/requirements.txt /app/python-name-service/
+WORKDIR /app/python-name-service
+RUN pip install -r requirements.txt
+ENTRYPOINT ["python"]
+CMD ["app.py"]

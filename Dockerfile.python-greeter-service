@@ -1,0 +1,10 @@
+FROM ubuntu:latest
+RUN apt-get update -y
+RUN apt-get install -y python-pip python-dev build-essential
+
+COPY python-greeter-service/app.py /app/python-greeter-service/ 
+COPY python-greeter-service/requirements.txt /app/python-greeter-service/
+WORKDIR /app/python-greeter-service
+RUN pip install -r requirements.txt
+ENTRYPOINT ["python"]
+CMD ["app.py"]

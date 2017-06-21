@@ -34,7 +34,7 @@ node {
 
   stage ('Build image') {
 
-    switch (serviceType) {
+    switch (${serviceType}) {
        case "all-in-one":
          sh("docker build -t ${imageTag} -f Dockerfile.all-in-one .")
        break

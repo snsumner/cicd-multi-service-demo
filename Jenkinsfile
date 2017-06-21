@@ -7,6 +7,7 @@ node {
   def appName = 'cicd-multi-service-demo'
   def feSvcName = "${appName}"
   def release = env.BRANCH_NAME.replaceAll('_','')
+  def serviceType = "foobar"
   checkout scm
 
   echo(message: directory_name)

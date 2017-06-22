@@ -14,7 +14,7 @@ spec:
         env: "{{ .Values.environment }}"
     spec:
       containers:
-        name: {{ .Chart.Name }}-{{ .Values.serviceType }}
+      - name: {{ .Chart.Name }}-{{ .Values.serviceType }}
         image: "{{ .Values.image.organization }}/{{ .Chart.Name }}-{{ .Values.serviceType }}-{{ .Values.branch }}:{{ .Values.buildNumber }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:

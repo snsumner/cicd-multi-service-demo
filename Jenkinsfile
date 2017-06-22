@@ -8,9 +8,8 @@ node {
   def feSvcName = "${appName}"
   def release = env.BRANCH_NAME.replaceAll('_','')
   def serviceType
+  def replicaCount
   checkout scm
-
-  echo(message: directory_name)
 
   switch (directory_name) {
      case "cicd-multi-service-demo-all-in-one":
@@ -33,11 +32,7 @@ node {
      break
   }
 
-  echo(message: serviceType)
-
   def imageTag = "quay.io/${project}/${appName}-${serviceType}-${env.BRANCH_NAME.toLowerCase()}:${env.BUILD_NUMBER}"
-
-  echo(message: imageTag)
 
   stage('Printenv') {
      sh("printenv")
@@ -61,13 +56,15 @@ node {
         case "dev_1":
             // Roll out to DEV-INT environment
             def namespace = 'dev-int'
-            sh("helm upgrade ${release}-${serviceType}  charts/${serviceType}/. --install --namespace ${namespace} --reuse-values --set buildNumber=${env.BUILD_NUMBER},branch=${env.BRANCH_NAME.toLowerCase()},environment=${namespace},replicaCount=1")
+            replicaCount = '1'
+            sh("helm upgrade ${release}-${serviceType}  charts/${serviceType}/. --install --namespace ${namespace} --reuse-values --set buildNumber=${env.BUILD_NUMBER},branch=${env.BRANCH_NAME.toLowerCase()},environment=${namespace},replicaCount=${replicaCount}")
         break
 
         case "rel_1":
             // Roll out to QA environment
             def namespace = 'qa'
-            sh("helm upgrade ${release} charts/. --install --namespace ${namespace} --reuse-values --set buildNumber=${env.BUILD_NUMBER},branch=${env.BRANCH_NAME.toLowerCase()},environment=${namespace},replicaCount=4")
+            replicaCount = '3'
+            sh("helm upgrade ${release} charts/. --install --namespace ${namespace} --reuse-values --set buildNumber=${env.BUILD_NUMBER},branch=${env.BRANCH_NAME.toLowerCase()},environment=${namespace},replicaCount=${replicaCount}")
         break
 
         default:

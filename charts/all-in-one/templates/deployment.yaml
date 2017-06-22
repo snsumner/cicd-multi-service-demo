@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        run: {{ template "fullname" . }}
+        app: {{ template "fullname" . }}
         env: "{{ .Values.environment }}"
     spec:
       containers:

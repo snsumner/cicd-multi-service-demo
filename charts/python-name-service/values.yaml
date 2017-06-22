@@ -1,0 +1,24 @@
+# Default values for cicd-multi-service-demo.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+buildNumber: 1
+branch: dev_1
+environment: DEV-INT
+replicaCount: 3
+dnsPolicy: ClusterFirst
+restartPolicy: Always
+terminationGracePeriodSeconds: 30
+serviceType: python-name-service
+image:
+  organization: quay.io/snsumner75
+  pullPolicy: IfNotPresent
+service:
+  externalPort: 5000
+  internalPort: 5000
+resources:
+  limits:
+    cpu: 100m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 512Mi

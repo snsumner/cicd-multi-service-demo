@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "Hello"
+    return "Welcome"
 
 if __name__ == '__main__':
     monitor(app, port=8001)

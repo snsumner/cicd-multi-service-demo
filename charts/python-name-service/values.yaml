@@ -13,8 +13,8 @@ image:
   organization: quay.io/snsumner75
   pullPolicy: IfNotPresent
 service:
-  externalPort: 5000
-  internalPort: 5000
+  externalPort: 5002
+  internalPort: 5002
 resources:
   limits:
     cpu: 100m

@@ -11,10 +11,10 @@ terminationGracePeriodSeconds: 30
 serviceType: python-hello-world
 greeterservice:
   host: cicd-multi-service-demo-python-greeter-service
-  port: 5000
+  port: 5001
 nameservice:
   host: cicd-multi-service-demo-python-name-service
-  port: 5000
+  port: 5002
 image:
   organization: quay.io/snsumner75
   pullPolicy: IfNotPresent

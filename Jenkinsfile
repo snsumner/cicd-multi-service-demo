@@ -63,8 +63,12 @@ node {
         case "rel_1":
             // Roll out to QA environment
             def namespace = 'qa'
-            replicaCount = '3'
-            sh("helm upgrade ${release} charts/. --install --namespace ${namespace} --reuse-values --set buildNumber=${env.BUILD_NUMBER},branch=${env.BRANCH_NAME.toLowerCase()},environment=${namespace},replicaCount=${replicaCount}")
+            if (serviceType == 'all-in-one') {
+               replicaCount = '1'
+            } else {
+               replicaCount = '3'
+            }
+            sh("helm upgrade ${release}-${serviceType}  charts/${serviceType}/. --install --namespace ${namespace} --reuse-values --set buildNumber=${env.BUILD_NUMBER},branch=${env.BRANCH_NAME.toLowerCase()},environment=${namespace},replicaCount=${replicaCount}")
         break
 
         default:

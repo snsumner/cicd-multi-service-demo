@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "{{ .Chart.Name }}-{{ .Values.serviceType }}-{{ .Values.buildNumber }}"
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Values.serviceType }}-{{ .Chart.Version | replace "+" "_" }}"
+    env: "{{ .Values.environment }}"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        env: "{{ .Values.environment }}"
+    spec:
+      containers:
+      - env:
+        - name: GREETERSERVICE
+          value: "http://{{ .Values.greeterservice.host }}:{{ .Values.greeterservice.port }}"
+        - name: NAMESERVICE
+          value: "http://{{ .Values.nameservice.host }}:{{ .Values.nameservice.port }}"
+        name: {{ .Chart.Name }}-{{ .Values.serviceType }}
+        image: "{{ .Values.image.organization }}/{{ .Chart.Name }}-{{ .Values.serviceType }}-{{ .Values.branch }}:{{ .Values.buildNumber }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.internalPort }}
+          protocol: TCP
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      restartPolicy: {{ .Values.restartPolicy }}
+      securityContext: {}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}

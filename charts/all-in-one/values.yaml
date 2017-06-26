@@ -19,7 +19,7 @@ image:
   organization: quay.io/snsumner75
   pullPolicy: IfNotPresent
 service:
-  type: LoadBalancer
+  type: NodePort
   externalPort: 80
   internalPort: 5000
 resources:
